@@ -28,7 +28,7 @@ make
 
 This example produces `simple.ppm` in the current working directory. Output filenames are defined by each camera's `ImageName` field.
 
-To convert the output to PNG with ImageMagick:
+To convert the output to PNG with ImageMagick(optional):
 
 ```bash
 magick simple.ppm simple.png

@@ -1,48 +1,62 @@
-# Ray Tracer
+# Recursive Ray Tracer
 
-A recursive ray tracer implementing physically-based light simulation, written in C++. Built as part of CENG 477 — Introduction to Computer Graphics at METU.
+A CPU-based recursive ray tracer written in C++. Built as part of CENG 477 - Introduction to Computer Graphics at METU.
 
 ## Overview
 
-Given a 3D scene described in XML, the program simulates light propagation and produces a 2D raster image in PPM format. No GPU or graphics API is used — the entire ray tracing pipeline runs on the CPU.
-
-The project was built on a course-provided scaffold (XML parser, PPM writer). The ray tracing logic is implemented in `raytracer.cpp`.
+Given an XML scene, the program renders PPM images using Blinn-Phong shading, shadow rays, and recursive mirror reflections. The project uses a course-provided scaffold for XML parsing and PPM output; the ray tracing logic is implemented in `raytracer.cpp`.
 
 ## Features
 
-- **Ray-object intersections** — Sphere, triangle, mesh, plane, and cylinder
-- **Shading** — Blinn-Phong model with ambient, diffuse, and specular components
-- **Shadow rays** — Point light occlusion with epsilon offset to avoid self-intersection
-- **Mirror reflection** — Recursive ray casting up to a configurable maximum depth
-- **Multiple cameras** — Each camera produces a separate output image
-- **Multiple light sources** — Ambient light and multiple point lights with inverse-square falloff
+- **Intersections** - Spheres, triangles, meshes, infinite planes, and capped cylinders
+- **Shading** - Ambient, diffuse, and specular components using the Blinn-Phong model
+- **Shadows** - Point light occlusion with an epsilon offset
+- **Reflections** - Recursive mirror reflections with a configurable maximum depth
+- **Multiple cameras** - A separate output image for each camera
+- **Lighting** - Ambient light and multiple point lights with distance attenuation
 
 ## Build & Run
 
-```bash
-make raytracer
-./raytracer <scene.xml>
-```
-
-Output is written as `.ppm` files, one per camera defined in the scene. To convert to PNG:
+Requires `g++` and GNU Make.
 
 ```bash
-convert output.ppm output.png  # requires ImageMagick
+git clone https://github.com/dou186f/recursive-ray-tracer.git
+cd recursive-ray-tracer
+make
+./raytracer test_scenes/inputs/simple.xml
 ```
 
-## Input Format
+This example produces `simple.ppm` in the current working directory. Output filenames are defined by each camera's `ImageName` field.
 
-Scene files are in XML and define background color, shadow epsilon, recursion depth, cameras, lights, materials, vertices, and objects (meshes, triangles, spheres, planes, cylinders).
+To convert the output to PNG with ImageMagick:
+
+```bash
+magick simple.ppm simple.png
+```
+
+## Example Scenes and Outputs
+
+XML scenes are in [`test_scenes/inputs`](test_scenes/inputs), and supplied PPM outputs are in [`test_scenes/outputs`](test_scenes/outputs).
+
+| Scene | Input |
+|---|---|
+| Simple geometry | [simple.xml](test_scenes/inputs/simple.xml) |
+| Shading | [simple_shading.xml](test_scenes/inputs/simple_shading.xml) |
+| Reflectance | [simple_reflectance.xml](test_scenes/inputs/simple_reflectance.xml) |
+| Mirror spheres | [mirror_spheres.xml](test_scenes/inputs/mirror_spheres.xml) |
+| Cornell box | [cornellbox.xml](test_scenes/inputs/cornellbox.xml) |
+| Cylinders | [cylinders.xml](test_scenes/inputs/cylinders.xml) |
+| Gym | [gym.xml](test_scenes/inputs/gym.xml) |
 
 ## Tech Stack
 
-- **Language:** C++
-- **Build:** Make
-- **XML Parsing:** tinyxml2
-- **Output Format:** PPM
+- **Language:** C++11
+- **Build:** GNU Make and g++
+- **XML Parsing:** tinyxml2, included in the repository
+- **Output Format:** PPM (ASCII P3)
 
 ## Author
 
 **Doğu Erbaş**  
 doguerbass@gmail.com  
-METU Computer Engineering — CENG 477
+METU Computer Engineering - CENG 477

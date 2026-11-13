@@ -2,3 +2,7 @@
 *.exe
 *.ppm
 raytracer
+!/test_scenes/outputs/*.ppm
+.DS_Store
+._*
+.idea/
